@@ -1,20 +1,26 @@
 <html>    
     <head>
         <title>Ответы на анкету</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'forms/style.css' %}">
     </head>
     <body>
         {% include "forms/header.html" %}
-        <main>
+        <main class="main">
             <h1>
                 {{ passed_form.form.name }}
             </h1>
             {% if passed_form.answer_set.all %}
-                <ul>
+                <ul class="main__list list">
                 {% for answer in passed_form.answer_set.all %}
-                    <li>
-                        <div>
-                            <span>{{ answer.question.text }}</span>
-                            <span>{{ answer.text }}<span></li>
+                    <li class="list__elem answer">
+                        <div class="answer__block">
+                            <span class="block__question-text">{{ answer.question.text }}</span>
+                            <span class="block__answer-text">{{ answer.text }}<span></li>
                         </div>
                 {% endfor %}
                 </ul>

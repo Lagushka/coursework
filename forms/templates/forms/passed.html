@@ -1,17 +1,21 @@
 <html>
     <head>
         <title>Пользователи</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'forms/style.css' %}">
     </head>
     <body>    
         {% include "forms/header.html" %}
-        <main>
-            <h1>
-                Пользователи
-            </h1>
+        <main class="main">
+            <h1>Пользователи</h1>
             {% if user_list %}
-                <ul>
+                <ul class="main__list list">
                     {% for user in user_list %}
-                        <li><a href="{% url 'forms:user' user.id %}">{{ user.name }}</a></li>
+                        <li class="list__elem"><a href="{% url 'forms:user' user.id %}">{{ user.name }}</a></li>
                     {% endfor %} 
                 </ul>
             {% else %}

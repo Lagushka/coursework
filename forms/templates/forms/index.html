@@ -1,18 +1,26 @@
 <html>
     <head>
         <title>Категории</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'forms/style.css' %}">
     </head>
-    {% include "forms/header.html" %} 
-    <main>
-        <h1>Выберите категорию</h1>
-        {% if category_list %}
-            <ul>
-                {% for category in category_list %}
-                    <li><a href="{% url 'forms:category' category.id %}">{{ category.name }}</a></li>
-                {% endfor %} 
-            </ul>
-        {% else %}
-            <span>Сейчас категорий нет</span>
-        {% endif %}
-    </main>
+    <body>
+        {% include "forms/header.html" %} 
+        <main class="main">
+            <h1>Выберите категорию</h1>
+            {% if category_list %}
+                <ul class="main__list list">
+                    {% for category in category_list %}
+                        <li class="list__elem"><a href="{% url 'forms:category' category.id %}">{{ category.name }}</a></li>
+                    {% endfor %} 
+                </ul>
+            {% else %}
+                <span>Сейчас категорий нет</span>
+            {% endif %}
+        </main>
+    </body>
 </html>
