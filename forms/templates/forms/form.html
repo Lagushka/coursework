@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Анкета</title>
+    </head>
+    </body>
+        {% include "forms/header.html" %}
+        <main>
+            <h1>
+                {{ form.name }}
+            </h1>
+            <form action="{% url 'forms:submit' form.id %}" method="post">
+            {% csrf_token %}
+                <label for="name">Ваше имя</label>
+                <input type="text" required id="name" name="name">
+                {% for question in form.questions.all %}
+                    <div class="question">
+                        <label for="question{{ forloop.counter }}">{{ question.text }}</label>
+                        <input type="text" required id="question{{ forloop.counter }}"  name="{{ question.id }}">
+                    </div>
+                {% endfor %}
+                <input type="submit" value="Отправить">
+            </form>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<html>  
+    <head>
+        <title>{{ user.name }}</title>
+    </head> 
+    <body>
+        {% include "forms/header.html" %}
+        <main>
+            <h1>
+                {{ user.name }}
+            </h1>
+            {% if user.passed_form_set.all %}
+                <ul>
+                {% for passed_form in user.passed_form_set.all %}
+                    <li><a href="{% url 'forms:passed_form' passed_form.id %}">{{ passed_form.form.name }}</a></li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <span>У пользователя пока нет пройденных анкет :(</span>
+            {% endif %}
+        </main>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<html>  
+    <head>
+        <title>{{ category.name }}</title>
+    </head> 
+    <body>
+        {% include "forms/header.html" %}
+        <main>
+            <h1>
+                {{ category.name }}
+            </h1>
+            {% if category.forms.all %}
+                <ul>
+                {% for form in category.forms.all %}
+                    <li><a href="{% url 'forms:form' form.id %}">{{ form.name }}</a></li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <span>Пока нет опросов в этой категории :(</span>
+            {% endif %}
+        </main>
+    </body>
+</html>

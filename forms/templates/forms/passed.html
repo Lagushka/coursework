@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Пользователи</title>
+    </head>
+    <body>    
+        {% include "forms/header.html" %}
+        <main>
+            <h1>
+                Пользователи
+            </h1>
+            {% if user_list %}
+                <ul>
+                    {% for user in user_list %}
+                        <li><a href="{% url 'forms:user' user.id %}">{{ user.name }}</a></li>
+                    {% endfor %} 
+                </ul>
+            {% else %}
+                <span>Пройденных анкет еще нет</span>
+            {% endif %}
+        <main>
+    </body>
+</html>

@@ -1,9 +1,18 @@
-{% if category_list %}
-    <ul>
-        {% for category in category_list %}
-            <li><a href="{% url 'forms:category' category.id %}">{{ category.name }}</a></li>
-        {% endfor %} 
-    </ul>
-{% else %}
-    <span>Сейчас категорий нет</span>
-{% endif %}
+<html>
+    <head>
+        <title>Категории</title>
+    </head>
+    {% include "forms/header.html" %} 
+    <main>
+        <h1>Выберите категорию</h1>
+        {% if category_list %}
+            <ul>
+                {% for category in category_list %}
+                    <li><a href="{% url 'forms:category' category.id %}">{{ category.name }}</a></li>
+                {% endfor %} 
+            </ul>
+        {% else %}
+            <span>Сейчас категорий нет</span>
+        {% endif %}
+    </main>
+</html>

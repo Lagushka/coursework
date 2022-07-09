@@ -1,0 +1,26 @@
+<html>    
+    <head>
+        <title>Ответы на анкету</title>
+    </head>
+    <body>
+        {% include "forms/header.html" %}
+        <main>
+            <h1>
+                {{ passed_form.form.name }}
+            </h1>
+            {% if passed_form.answer_set.all %}
+                <ul>
+                {% for answer in passed_form.answer_set.all %}
+                    <li>
+                        <div>
+                            <span>{{ answer.question.text }}</span>
+                            <span>{{ answer.text }}<span></li>
+                        </div>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <span>Ответов не будет :(</span>
+            {% endif %}
+        </main>
+    </body>
+</html>
