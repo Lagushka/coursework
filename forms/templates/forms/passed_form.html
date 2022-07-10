@@ -1,4 +1,5 @@
-<html>    
+<!DOCTYPE html>
+<html lang="ru">  
     <head>
         <title>Ответы на анкету</title>
 
@@ -20,8 +21,9 @@
                     <li class="list__elem answer">
                         <div class="answer__block">
                             <span class="block__question-text">{{ answer.question.text }}</span>
-                            <span class="block__answer-text">{{ answer.text }}<span></li>
+                            <span class="block__answer-text">{{ answer.text }}<span>
                         </div>
+                    </li>
                 {% endfor %}
                 </ul>
             {% else %}
