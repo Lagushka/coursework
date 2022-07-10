@@ -147,8 +147,40 @@ a {
   width: -moz-fit-content;
   width: fit-content;
 }
+@media (min-width: 480px) {
+  .main__list .list__elem .answer__block .block__answer-text {
+    font-size: 1.5em;
+  }
+}
+@media (min-width: 1000px) {
+  .main__list .list__elem .answer__block .block__answer-text {
+    line-height: 1.6em;
+  }
+}
+@media (min-width: 1440px) {
+  .main__list .list__elem .answer__block .block__answer-text {
+    font-size: 1.6em;
+  }
+}
 .main__list .list__elem .answer__block .block__question-text {
   font-size: 1.2em;
+  text-align: center;
+  font-weight: 700;
+}
+@media (min-width: 480px) {
+  .main__list .list__elem .answer__block .block__question-text {
+    font-size: 1.5em;
+  }
+}
+@media (min-width: 1000px) {
+  .main__list .list__elem .answer__block .block__question-text {
+    line-height: 1.7em;
+  }
+}
+@media (min-width: 1440px) {
+  .main__list .list__elem .answer__block .block__question-text {
+    font-size: 1.7em;
+  }
 }
 .main__form {
   display: flex;
