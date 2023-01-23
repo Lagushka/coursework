@@ -9,6 +9,7 @@ class Question(models.Model):
         return self.text
 
     class Meta:
+        verbose_name = "Вопрос"
         verbose_name_plural = "Вопросы"
 
 class Form(models.Model):
@@ -20,6 +21,7 @@ class Form(models.Model):
         return self.name
 
     class Meta:
+        verbose_name = "Анкета"
         verbose_name_plural = "Анкеты"
         
 class User(models.Model):
@@ -29,6 +31,7 @@ class User(models.Model):
         return self.name
 
     class Meta:
+        verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
 class Passed_Form(models.Model):
@@ -39,6 +42,7 @@ class Passed_Form(models.Model):
         return self.form.name
 
     class Meta:
+        verbose_name = "Пройденная форма"
         verbose_name_plural = "Пройденные формы"
 
 class Answer(models.Model):
@@ -50,6 +54,7 @@ class Answer(models.Model):
         return self.text
 
     class Meta:
+        verbose_name = "Ответ"
         verbose_name_plural = "Ответы"
 
 class Category(models.Model):
@@ -60,5 +65,6 @@ class Category(models.Model):
         return self.name
 
     class Meta:
+        verbose_name = "Категория"
         verbose_name_plural = "Категории"
     

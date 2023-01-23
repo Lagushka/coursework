@@ -1,6 +1,8 @@
-from unicodedata import name
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from forms.serializers import CategorySerializer, FormSerializer, PassedSerializer, UserSerializer, AnswerSerializer
 from django.urls import reverse
 from django.views import generic
 
@@ -11,42 +13,44 @@ class IndexView(generic.ListView):
     model = Category
     context_object_name = 'category_list'
 
-class CategoryView(generic.DetailView):
-    template_name = 'forms/category.html'
-    model = Category
+class CategoryView(ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
-class FormView(generic.DetailView):
-    template_name = 'forms/form.html'
-    model = Form
+class FormsViewPagination(PageNumberPagination):
+    page_size = 15
+    page_query_param = 'page_size'
+    max_page_size = 15
+class FormView(ModelViewSet):
+    queryset = Form.objects.all()
+    serializer_class = FormSerializer
+    pagination_class = FormsViewPagination
 
-class PassedView(generic.ListView):
-    template_name = 'forms/passed.html'
-    model = User
-    context_object_name = 'user_list'
+    @action(methods=['GET'], detail=False)
+    def last_forms(self, _):
+        last_forms = Form.objects.all().order_by('-pub_date')
+        page = self.paginate_queryset(last_forms)
 
-class PassedFormView(generic.DetailView):
-    template_name = 'forms/passed_form.html'
-    model = Passed_Form
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
-class UserView(generic.DetailView):
-    template_name = 'forms/user.html'
-    model = User
+        serializer = self.get_serializer(last_forms, many=True)
+        return Response(serializer.data)
 
-def submit(request, form_id):
-    new_form = get_object_or_404(Form, pk=form_id)
-    try:
-        username = User.objects.get(name=request.POST.get("name", "noname"))
-    except:
-        username = User(name=request.POST.get("name", "noname"))
-    username.save()
-    new_passed_form = Passed_Form(form=new_form, user=username)
-    new_passed_form.save()
-    for new_question in new_form.questions.all():
-        print(request.POST.get(str(new_question.id), new_question.id))
-        answer = Answer(passed_form=new_passed_form, question=new_question, text=request.POST.get(str(new_question.id), "has not been got"))
-        answer.save()
-    return HttpResponseRedirect(reverse('forms:index', args=()))
+class PassedView(ModelViewSet):
+    queryset = Passed_Form.objects.all()
+    serializer_class = PassedSerializer
 
+    # @action(methods=['POST'], detail=True)
+    # def addPassedForm(self, request, pk=None):
+    #     data = request.data
+        
 
+class AnswerView(ModelViewSet):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
 
-
+class UserView(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
