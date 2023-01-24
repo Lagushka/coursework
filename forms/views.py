@@ -2,11 +2,13 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError, NotFound
 from forms.serializers import CategorySerializer, FormSerializer, PassedSerializer, UserSerializer, AnswerSerializer
 from django.urls import reverse
 from django.views import generic
+from django.shortcuts import get_object_or_404
 
-from forms.models import Category, Form, Answer, Passed_Form, User
+from forms.models import Category, Form, Answer, Passed_Form, User, Question
 
 class IndexView(generic.ListView):
     template_name = 'forms/index.html'
@@ -42,11 +44,32 @@ class PassedView(ModelViewSet):
     queryset = Passed_Form.objects.all()
     serializer_class = PassedSerializer
 
-    # @action(methods=['POST'], detail=True)
-    # def addPassedForm(self, request, pk=None):
-    #     data = request.data
-        
+    @action(methods=['POST'], detail=False)
+    def add_passed_form(self, request):
+        try:
+            curForm = get_object_or_404(Form, pk=request.data.get('id'))
+        except:
+            raise NotFound({'error': 'form not found' + str(request.data.get('id'))})
 
+        if request.data.get('user') and request.data.get('user') != '':
+            try:
+                username = User.objects.get(name=request.data.get('user'))
+            except:
+                username = User(name=request.data.get('user'))
+                username.save()
+        else: 
+            raise ValidationError({'error': 'username must not be empty'})
+
+        new_passed_form = Passed_Form(form = curForm, user = username)
+        new_passed_form.save()
+        for answer in request.data.get('answers'):
+            if answer.get('text') and answer.get('text') != '':
+                new_answer = Answer(passed_form = new_passed_form, question = get_object_or_404(Question, pk=answer.get('question_id')), text = answer.get('text'))
+                new_answer.save()
+            else:
+                raise ValidationError({'error': 'all questions should be answered'})
+        
+        return Response({"message": "form successfully added"})
 class AnswerView(ModelViewSet):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer

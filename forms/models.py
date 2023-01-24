@@ -46,7 +46,7 @@ class Passed_Form(models.Model):
         verbose_name_plural = "Пройденные формы"
 
 class Answer(models.Model):
-    passed_form = models.ForeignKey(Passed_Form, on_delete=models.CASCADE)
+    passed_form = models.ForeignKey(Passed_Form, related_name="answer", on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     text = models.CharField(max_length=255, verbose_name="Текст")
 
